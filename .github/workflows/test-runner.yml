@@ -1,0 +1,39 @@
+name: Test Self-Hosted Runner
+
+on:
+  workflow_dispatch:  # Ejecutar manualmente
+  push:
+    branches: [ main ]
+
+jobs:
+  test-runner:
+    runs-on: [self-hosted, windows, local]  # Usa tus labels
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Información del Runner
+        run: |
+          Write-Host "========================================" -ForegroundColor Cyan
+          Write-Host "¡Hola desde tu Self-Hosted Runner!" -ForegroundColor Green
+          Write-Host "========================================" -ForegroundColor Cyan
+          Write-Host ""
+          Write-Host "Computadora: $env:COMPUTERNAME" -ForegroundColor Yellow
+          Write-Host "Usuario: $env:USERNAME" -ForegroundColor Yellow
+          Write-Host "Sistema: $env:OS" -ForegroundColor Yellow
+          Write-Host "Fecha y Hora: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" -ForegroundColor Yellow
+          Write-Host ""
+          
+      - name: Verificar PowerShell
+        run: |
+          Write-Host "Versión de PowerShell:" -ForegroundColor Cyan
+          $PSVersionTable.PSVersion
+          
+      - name: Listar directorio de trabajo
+        run: |
+          Write-Host "Directorio de trabajo:" -ForegroundColor Cyan
+          Get-Location
+          Write-Host ""
+          Write-Host "Archivos en el repositorio:" -ForegroundColor Cyan
+          Get-ChildItem
